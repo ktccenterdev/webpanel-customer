@@ -35,6 +35,6 @@ public class CustomerRestController {
 
     @PutMapping(path = "/customer/{id}")
     public CustomerResponseDTO updatedCustomer(CustomerRequestDTO customerRequestDTO){
-        return customerService.save(customerRequestDTO);
+        return customerService.updateCustomer(customerRequestDTO);
     }
 }
