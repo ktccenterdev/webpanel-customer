@@ -25,6 +25,11 @@ public class PersonRestController {
         return personService.savePerson(personRequestDTO);
     }
     @PutMapping(path = "/person")
+    public PersonResponseDTO updatePerson(PersonRequestDTO personRequestDTO){
+        return personService.updatePerson(personRequestDTO);
+    }
+
+    @GetMapping(path = "/person/{id}")
     public PersonResponseDTO getPerson(@PathVariable String id){
         return personService.getPerson(id);
     }
