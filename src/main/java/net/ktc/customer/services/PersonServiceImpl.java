@@ -23,33 +23,60 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonResponseDTO savePerson(PersonRequestDTO personRequestDTO) {
-        Person person = personMapper.personRequestDTOPerson(personRequestDTO);
-        Person personSaved = personRepository.save(person);
+    public PersonResponseDTO save(PersonRequestDTO personRequestDTO) {
+        try {
+            Person person = personMapper.personRequestDTOPerson(personRequestDTO);
+            Person personSaved = personRepository.save(person);
 
-        PersonResponseDTO personResponseDTO = personMapper.personToPersonResponseDTO(personSaved);
-        return personResponseDTO;
+            PersonResponseDTO personResponseDTO = personMapper.personToPersonResponseDTO(personSaved);
+            return personResponseDTO;
+        }catch (Exception e){
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
     }
 
     @Override
-    public PersonResponseDTO getPerson(String id) {
-        Person person = personRepository.findById(id).get();
-        return personMapper.personToPersonResponseDTO(person);
+    public PersonResponseDTO getOne(String id) {
+        try {
+            Person person = personRepository.findById(id).get();
+            return personMapper.personToPersonResponseDTO(person);
+        }catch (Exception e){
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+
     }
 
     @Override
-    public PersonResponseDTO updatePerson(PersonRequestDTO personRequestDTO) {
-        Person person = personMapper.personRequestDTOPerson(personRequestDTO);
-        Person personUpdated = personRepository.save(person);
-        return personMapper.personToPersonResponseDTO(personUpdated);
+    public PersonResponseDTO update(PersonRequestDTO personRequestDTO) {
+        try {
+            Person person = personMapper.personRequestDTOPerson(personRequestDTO);
+            Person personUpdated = personRepository.save(person);
+            return personMapper.personToPersonResponseDTO(personUpdated);
+        }catch (Exception e){
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+
     }
 
     @Override
-    public List<PersonResponseDTO> listPerson() {
-        List<Person> persons = personRepository.findAll();
-        List<PersonResponseDTO> personResponseDTOS = persons.stream()
-                .map(pers->personMapper.personToPersonResponseDTO(pers))
-                .collect(Collectors.toList());
-        return personResponseDTOS;
+    public List<PersonResponseDTO> getAll() {
+        try {
+            List<Person> persons = personRepository.findAll();
+            List<PersonResponseDTO> personResponseDTOS = persons.stream()
+                    .map(pers->personMapper.personToPersonResponseDTO(pers))
+                    .collect(Collectors.toList());
+            return personResponseDTOS;
+        }catch (Exception e){
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public void delete(String id){
+        try {
+            personRepository.deleteById(id);
+        }catch (Exception e){
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
     }
 }

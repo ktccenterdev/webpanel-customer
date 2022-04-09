@@ -15,26 +15,28 @@ public class CustomerRestController {
     public CustomerRestController(CustomerService customerService) {
         this.customerService = customerService;
     }
-    @GetMapping(path = "/customers")
-    public List<CustomerResponseDTO> allCustomers(){
-        return customerService.listCustomers();
-    }
 
     @PostMapping(path = "/customer")
-    public CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO){
-        System.out.print("========================================\n");
-        System.out.println(customerRequestDTO);
-        System.out.print("========================================\n");
+    public CustomerResponseDTO save(@RequestBody CustomerRequestDTO customerRequestDTO){
         return customerService.save(customerRequestDTO);
     }
 
     @GetMapping(path = "/customer/{id}")
-    public CustomerResponseDTO getCustomer(@PathVariable String id){
-        return customerService.getCustomer(id);
+    public CustomerResponseDTO getCustomer(@PathVariable(name = "id") String id){
+        return customerService.getOne(id);
     }
 
+    @GetMapping(path = "/customer")
+    public List<CustomerResponseDTO> allCustomers(){
+        return customerService.getAll();
+    }
     @PutMapping(path = "/customer/{id}")
-    public CustomerResponseDTO updatedCustomer(CustomerRequestDTO customerRequestDTO){
-        return customerService.updateCustomer(customerRequestDTO);
+    public CustomerResponseDTO updatedCustomer(@RequestBody CustomerRequestDTO customerRequestDTO){
+        return customerService.update(customerRequestDTO);
+    }
+
+    @DeleteMapping(path = "/customer/{id}")
+    public void delete(@PathVariable(name = "id") String id){
+        customerService.delete(id);
     }
 }
